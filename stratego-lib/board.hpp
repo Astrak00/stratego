@@ -145,6 +145,44 @@ struct Board {
       return availableMoves;
     }
 
+    bool canMove(int fromX, int fromY, int toX, int toY) {
+      // For now, return true as a basic implementation
+      // Later you can add specific movement rules based on piece type
+      Piece piece = grid[fromX][fromY];
+      int deltaX  = std::abs(toX - fromX);
+      int deltaY  = std::abs(toY - fromY);
+
+      if (piece.type == PieceType::EMPTY || piece.type == PieceType::BOMB ||
+          piece.type == PieceType::FLAG) {
+        std::cerr << "No piece to move." << std::endl;
+        return false;
+      } else if (piece.type == PieceType::SCOUT) {
+        return (deltaX == 0 || deltaY == 0) && (deltaX + deltaY > 0);
+      }
+      return (deltaX + deltaY == 1);
+    }
+
+    bool move(int fromX, int fromY, int toX, int toY) {
+      if (!(fromX >= 0 && fromX < BOARD_SIZE && fromY >= 0 && fromY < BOARD_SIZE && toX >= 0 &&
+            toX < BOARD_SIZE && toY >= 0 && toY < BOARD_SIZE)) {
+        std::cerr << "Invalid position to move." << std::endl;
+        return false;
+      }
+      // Check if the source is occupied and destination is empty
+      if (!(occupied[fromX][fromY] && !occupied[toX][toY])) {
+        std::cerr << "Source position is not occupied or destination is not empty." << std::endl;
+        return false;
+      }
+      if (!canMove(fromX, fromY, toX, toY)) {  // Check if the piece can perform the move
+        std::cerr << "Invalid move." << std::endl;
+        return false;
+      }
+      grid[toX][toY] = grid[fromX][fromY];  // Copy the piece to the new position
+      removePiece(fromX, fromY);            // Set the old position to an empty piece
+      return true;
+    }
+
+  private:
     // Function that checks if a piece can beat another piece after attacking
     bool canBeat(Piece attacker, Piece defender) { return (attacker >= defender); }
 };

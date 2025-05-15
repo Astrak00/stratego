@@ -18,7 +18,7 @@ enum class PieceType {
   GENERAL,
   MARSHAL,
   FLAG,
-  BOMBER,
+  BOMB,
   EMPTY
 };
 
@@ -80,8 +80,11 @@ struct Piece {
         case PieceType::FLAG:
           type_code = "F";
           break;
-        case PieceType::BOMBER:
+        case PieceType::BOMB:
           type_code = "B";
+          break;
+        case PieceType::EMPTY:
+          type_code = "E";
           break;
       }
 
