@@ -37,6 +37,7 @@ struct Board {
       if (x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE) {
         grid[x][y]     = Piece();  // Set to default piece to indicate empty
         occupied[x][y] = false;
+        revealed[x][y] = false;  // Hide the piece
       } else {
         std::cerr << "Invalid position to remove piece." << std::endl;
       }
@@ -146,8 +147,6 @@ struct Board {
     }
 
     bool canMove(int fromX, int fromY, int toX, int toY) {
-      // For now, return true as a basic implementation
-      // Later you can add specific movement rules based on piece type
       Piece piece = grid[fromX][fromY];
       int deltaX  = std::abs(toX - fromX);
       int deltaY  = std::abs(toY - fromY);
@@ -177,8 +176,9 @@ struct Board {
         std::cerr << "Invalid move." << std::endl;
         return false;
       }
-      grid[toX][toY] = grid[fromX][fromY];  // Copy the piece to the new position
-      removePiece(fromX, fromY);            // Set the old position to an empty piece
+      placePiece(toX, toY, grid[fromX][fromY]);  // Place the piece at the new position
+      revealed[toX][toY] = true;                 // Reveal the new position
+      removePiece(fromX, fromY);                 // Set the old position to an empty piece
       return true;
     }
 

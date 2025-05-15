@@ -5,15 +5,35 @@
 int main() {
   // Create a board
   Board board;
-  int i = 0;
+  int i, j;
   for (i = 0; i < BOARD_SIZE; ++i) {
-    for (int j = 0; j < 2; ++j) {
-      board.placePiece(i, j, Piece(PieceType::EMPTY, PieceColor::BLUE));
-      board.revealPiece(0, i);
+    for (j = 0; j < 2; ++j) {
+      board.placePiece(j, i, Piece(PieceType::MARSHAL, PieceColor::BLUE));
+      board.revealPiece(j, i);
     }
-
-    board.printBoard();
-
-    return 0;
   }
+
+  for (i = 0; i < BOARD_SIZE; ++i) {
+    for (j = BOARD_SIZE - 2; j < BOARD_SIZE; ++j) {
+      board.placePiece(j, i, Piece(PieceType::MARSHAL, PieceColor::RED));
+      board.revealPiece(j, i);
+    }
+  }
+
+  // Print the board
+  std::cout << "Initial Board:" << std::endl;
+  board.printBoard();
+
+  // Moving a valid piece: row, column, new row, new column
+  std::cout << "Moving a piece from (1, 1) to (2, 1): ";
+  if (board.move(1, 1, 2, 1)) {
+    std::cout << "Move successful." << std::endl;
+  } else {
+    std::cout << "Move failed." << std::endl;
+  }
+  // Print the board after the move
+  std::cout << "Board after move:" << std::endl;
+  board.printBoard();
+
+  return 0;
 }
