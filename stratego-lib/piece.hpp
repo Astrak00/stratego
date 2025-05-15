@@ -31,7 +31,7 @@ struct Piece {
     PieceColor color;
     PieceStatus status;
 
-    Piece() : type(PieceType::FLAG), color(PieceColor::BLUE), status(PieceStatus::HIDDEN) { }
+    Piece() : type(PieceType::EMPTY), color(PieceColor::BLUE), status(PieceStatus::HIDDEN) { }
 
     Piece(PieceType t, PieceColor c) : type(t), color(c), status(PieceStatus::HIDDEN) { }
 

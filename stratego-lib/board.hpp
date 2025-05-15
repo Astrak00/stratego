@@ -5,12 +5,8 @@
 #ifndef STRATEGO_BOARD_HPP
   #define STRATEGO_BOARD_HPP
   #include "piece.hpp"
-// #include "player.hpp"
-// #include "move.hpp"
-// #include "game.hpp"
-// #include "game_state.hpp"
 
-  #define BOARD_SIZE 10
+  #define BOARD_SIZE 12
 
 struct Board {
     std::array<std::array<Piece, BOARD_SIZE>, BOARD_SIZE> grid;
@@ -21,7 +17,7 @@ struct Board {
       // Initialize the board with a default layout or read from a file
       for (int i = 0; i < BOARD_SIZE; ++i) {
         for (int j = 0; j < BOARD_SIZE; ++j) {
-          grid[i][j]     = Piece(PieceType::FLAG, PieceColor::RED);  // Example initialization
+          grid[i][j]     = Piece();  // Example initialization
           revealed[i][j] = false;
           occupied[i][j] = false;
         }
@@ -48,7 +44,8 @@ struct Board {
 
     void revealPiece(int x, int y) {
       if (x >= 0 && x < BOARD_SIZE && y >= 0 && y < BOARD_SIZE) {
-        revealed[x][y] = true;
+        grid[x][y].reveal();
+        revealed[x][y] = true;  // Update the revealed tracking array
       } else {
         std::cerr << "Invalid position to reveal piece." << std::endl;
       }
@@ -66,9 +63,9 @@ struct Board {
       for (int i = 0; i < BOARD_SIZE; ++i) {
         for (int j = 0; j < BOARD_SIZE; ++j) {
           if (revealed[i][j]) {
-            std::cout << grid[i][j] << " ";
+            std::cout << grid[i][j] << "";
           } else {
-            std::cout << "X ";  // X for unrevealed pieces
+            std::cout << " .";  // X for unrevealed pieces
           }
         }
         std::cout << std::endl;
@@ -149,13 +146,7 @@ struct Board {
     }
 
     // Function that checks if a piece can beat another piece after attacking
-    bool canBeat(Piece attacker, Piece defender) {
-      if (attacker >= defender) {
-        return true;
-      } else {
-        return false;
-      }
-    }
+    bool canBeat(Piece attacker, Piece defender) { return (attacker >= defender); }
 };
 
 #endif
