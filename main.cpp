@@ -34,6 +34,7 @@ int main() {
   // Print the board after the move
   std::cout << "Board after move:" << std::endl;
   board.printBoard();
+  
 
   return 0;
 }
