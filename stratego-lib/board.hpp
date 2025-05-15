@@ -1,5 +1,6 @@
 #include <iostream>
 #include <string>
+#include <thread>
 #include <vector>
 
 #ifndef STRATEGO_BOARD_HPP
@@ -61,6 +62,9 @@ struct Board {
     }
 
     void printBoard() {
+      // Clear the console
+      std::cout << "\033[2J\033[1;1H";  // ANSI escape code to clear the screen
+
       for (int i = 0; i < BOARD_SIZE; ++i) {
         for (int j = 0; j < BOARD_SIZE; ++j) {
           if (revealed[i][j]) {
@@ -71,6 +75,7 @@ struct Board {
         }
         std::cout << std::endl;
       }
+      std::this_thread::sleep_for(std::chrono::milliseconds(250));
     }
 
     bool isOccupied(int x, int y) {
@@ -173,7 +178,9 @@ struct Board {
         return false;
       }
       if (!canMove(fromX, fromY, toX, toY)) {  // Check if the piece can perform the move
-        std::cerr << "Invalid move." << std::endl;
+        std::cerr
+            << "Move coordinates are not valid: too much movement in one or multiple directions."
+            << std::endl;
         return false;
       }
       placePiece(toX, toY, grid[fromX][fromY]);  // Place the piece at the new position
