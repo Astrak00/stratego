@@ -63,9 +63,9 @@ struct Board {
       for (int i = 0; i < BOARD_SIZE; ++i) {
         for (int j = 0; j < BOARD_SIZE; ++j) {
           if (revealed[i][j]) {
-            std::cout << grid[i][j] << "";
+            std::cout << grid[i][j] << " ";
           } else {
-            std::cout << " .";  // X for unrevealed pieces
+            std::cout << " . ";  // X for unrevealed pieces
           }
         }
         std::cout << std::endl;
